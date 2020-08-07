@@ -1,60 +1,32 @@
-function buildCharDictionary(s)
-{
-    const chars = s.split("");
-    const dict = {};
-
-    for (let i = 0; i < chars.length; i++) {
-        dict[s.charAt(i)] = true;
-    }
-
-    return dict;
-}
-
 function longestSubstring(s) {
     if(s.length === 0)
-        return 0;
+        return "";
     else if(s.length === 1)
-        return 1;
+        return s;
 
     let tailPos = 0;
     let headPos = 0;
-    let maxWindowSize;
 
     let dict = {};
-    maxWindowSize = Object.keys(dict).length;
-    let maxUniqueString;
-    let currentSequence;
+    let maxUniqueString = "";
 
-    while(headPos < s.length)
+    while(headPos < s.length && tailPos < s.length)
     {
-        const charAtHead = s.charAt(headPos);
-
-        if(!dict[charAtHead])
+        if(!dict[s.charAt(headPos)])
         {
-            // no duplicate, try to expand window
-            currentSequence = s.substring(tailPos, headPos + 1);
-            dict[charAtHead] = true;
-
-            if(Object.keys(dict).length > maxWindowSize)
+            dict[s.charAt(headPos)] = true;
+            const currentSequence = s.substring(tailPos, headPos + 1);
+            if(currentSequence.length > maxUniqueString.length)
             {
-                // record maximum number of distinct characters found in the substring
-                // (number of keys in the dict at this time)
-                maxWindowSize = Object.keys(dict).length;
                 maxUniqueString = currentSequence;
             }
+            headPos++;
         }
-        else {
-            let charAtTail = s.charAt(tailPos);
-            while(dict[charAtTail])
-            {
-                tailPos++;
-                headPos++;
-                currentSequence = s.substring(tailPos, headPos + 1);
-                dict = buildCharDictionary(currentSequence);
-            }
+        else
+        {
+            delete dict[s.charAt(tailPos)];
+            tailPos++;
         }
-
-        headPos++;
     }
 
     return maxUniqueString;
@@ -66,8 +38,11 @@ function lengthOfLongestSubstring(s) {
 
 
 const test = [
+    "aaaaaaakkkkkkkkkk",
     "aab",
+    "ckilbkd",
     "pwwkew",
+    "nfpdmpi",
     "wpwkew",
     "abcabcbb",
     "baa",
