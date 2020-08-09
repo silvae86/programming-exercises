@@ -4,10 +4,13 @@
  */
 
 class Node {
-    value;
-    left = null;
-    right = null;
-    count = 0;
+    constructor(value, left, right, count = 1)
+    {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+        this.count = count;
+    }
 }
 
 let findNode = function(node, value)
@@ -31,7 +34,7 @@ let findNode = function(node, value)
 
 let insertNode = function(node, value)
 {
-    const newNode = {value: value, count: 0}
+    const newNode = {value: value, count: 1};
     if(node.value === value)
     {
         node.count++;
@@ -56,7 +59,7 @@ let insertNode = function(node, value)
         }
         else if (value <= node.left.value)
         {
-            insertNode(node.left);
+            insertNode(node.left, value);
         }
     }
     else if(node.right)
@@ -68,36 +71,68 @@ let insertNode = function(node, value)
         }
         else if (value >= node.right.value)
         {
-            insertNode(node.right);
+            insertNode(node.right, value);
         }
     }
 }
 
-var getSmallest = function()
+var getSmallest = function(node)
+{
+    if(node.left && node.left.count > 0)
+    {
+        return getSmallest(node.left)
+    }
+    else
+    {
+        return node;
+    }
+};
 
-var tree = new Node();
+var getLargest = function(node)
+{
+    if(node.right && node.right.count > 0)
+    {
+        return getLargest(node.right)
+    }
+    else
+    {
+        return node;
+    }
+};
 
 var wiggleSort = function(nums) {
-    for(let i = 0; i < nums.length; i++)
+
+    var tree = new Node(nums[0]);
+
+    for(let i = 1; i < nums.length; i++)
     {
-        insertNode(tree, nums[i]);
+        const num = nums[i];
+        insertNode(tree,num);
     }
 
-    let currentNumber = getSmallest(tree);
     let wiggleSorted = [];
-    while(wiggleSorted.length < nums.length)
+    let lower = [];
+    let smallest = getSmallest(node);
+    let higher = [];
+    let largest = getLargest(node);
+
+    while(smallest != null)
     {
-        const down = getFirstSmallestThan(tree, currentNumber);
-        const up = getFirstLargerThan(tree, down);
-        if(down)
-        {
-            wiggleSorted = wiggleSorted.concat([down.value])
-        }
-        if(up)
-        {
-            wiggleSorted = wiggleSorted.concat([up.value])
-        }
+        smallest = getSmallest(node);
+        lower.concat([smallest]);
+    }
+
+    while(largest != null)
+    {
+        largest = getLargest(node);
+        higher.concat([largest]);
     }
 
     nums = wiggleSorted;
+    console.log(nums);
 };
+
+console.log(wiggleSort([6,3,6,3,6]));
+console.log(wiggleSort([1, 5, 1, 1, 6, 4]));
+console.log(wiggleSort([6,6,6,6,3,3,3,3]));
+console.log(wiggleSort([2, 3, 1, 3, 1, 2]));
