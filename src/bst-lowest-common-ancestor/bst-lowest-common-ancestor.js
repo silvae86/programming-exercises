@@ -23,46 +23,28 @@ function TreeNode(val) {
 
  var search = function(node, parent, p, q, paths)
  {
-     if(!node)
-     {
-         return null;
-     }
-     else
+     if(paths[q.val] && paths[q.val][0] === q && paths[p.val] && paths[p.val][0])
+         return;
+     if(node)
      {
          if(!paths[node.val])
          {
              if(parent === null)
              {
-                 paths[node.val] = [];
+                 paths[node.val] = [node.val];
              }
              else
              {
-                 paths[node.val] = paths[parent.val];
+                 paths[node.val] = [node.val].concat(paths[parent.val]);
              }
          }
-         if(equals(node.left, p))
-         {
-             paths[p.val] = paths[node.val].concat([p.val]);
-         }
-         if(equals(node.left, q))
-         {
-             paths[q.val] = paths[node.val].concat([q.val]);
-         }
-         if(equals(node.right, p))
-         {
-             paths[p.val] = paths[node.val].concat([p.val]);
-         }
-         if(equals(node.right, q))
-         {
-             paths[q.val] = paths[node.val].concat([q.val]);
-         }
+
+         if(node.left)
+             search(node.left, node, p, q, paths);
+         if(node.right)
+             search(node.right, node, p, q, paths);
          else
-         {
-             if(node.left)
-                search(node.left, node, p, q, paths);
-             if(node.right)
-                 search(node.left, node, p, q, paths);
-         }
+             paths[node.val] = [node.val].concat(paths[parent.val]);
      }
  }
 
