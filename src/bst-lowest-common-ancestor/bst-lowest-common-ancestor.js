@@ -23,8 +23,6 @@ function TreeNode(val) {
 
  var search = function(node, parent, p, q, paths)
  {
-     if(paths[q.val] && paths[q.val][0] === q && paths[p.val] && paths[p.val][0])
-         return;
      if(node)
      {
          if(!paths[node.val])
@@ -94,11 +92,11 @@ node2.right = node4;
 node1.left = node0;
 node1.right = node8;
 
-console.log("Common ancestor of 5, 4")
-console.log(JSON.stringify(lowestCommonAncestor(node3, node5, node4)));
-
 console.log("Common ancestor of 5, 1")
 JSON.stringify(lowestCommonAncestor(node3, node5, node1));
+
+console.log("Common ancestor of 5, 4")
+console.log(JSON.stringify(lowestCommonAncestor(node3, node5, node4)));
 
 console.log("Common ancestor of 7, 4")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node7, node4)));
@@ -114,3 +112,9 @@ console.log(JSON.stringify(lowestCommonAncestor(node3, node8, node1)));
 
 console.log("Common ancestor of 7, 3")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node7, node3)));
+
+console.log("Common ancestor of 7, 0")
+console.log(JSON.stringify(lowestCommonAncestor(node3, node7, node0)));
+
+console.log("Common ancestor of 7, 8")
+console.log(JSON.stringify(lowestCommonAncestor(node3, node7, node8)));
