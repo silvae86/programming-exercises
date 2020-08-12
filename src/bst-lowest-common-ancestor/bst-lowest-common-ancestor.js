@@ -21,6 +21,51 @@ function TreeNode(val) {
      else return(node1.val === node2.val);
  }
 
+ var search = function(node, parent, p, q, paths)
+ {
+     if(!node)
+     {
+         return null;
+     }
+     else
+     {
+         if(!paths[node.val])
+         {
+             if(parent === null)
+             {
+                 paths[node.val] = [];
+             }
+             else
+             {
+                 paths[node.val] = paths[parent.val];
+             }
+         }
+         if(equals(node.left, p))
+         {
+             paths[p.val] = paths[node.val].concat([p.val]);
+         }
+         if(equals(node.left, q))
+         {
+             paths[q.val] = paths[node.val].concat([q.val]);
+         }
+         if(equals(node.right, p))
+         {
+             paths[p.val] = paths[node.val].concat([p.val]);
+         }
+         if(equals(node.right, q))
+         {
+             paths[q.val] = paths[node.val].concat([q.val]);
+         }
+         else
+         {
+             if(node.left)
+                search(node.left, node, p, q, paths);
+             if(node.right)
+                 search(node.left, node, p, q, paths);
+         }
+     }
+ }
+
 /**
  * @param {TreeNode} root
  * @param {TreeNode} p
@@ -28,40 +73,20 @@ function TreeNode(val) {
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function(root, p, q) {
-    if(!root)
-        return null;
-    if(equals(p.left, q) || equals(p.right, q ))
-    {
-        return p;
-    }
-    else if(equals(q.left, p) || equals(q.right ,p) )
-    {
-        return q;
-    }
-    else if(
-        equals(root.left, p) &&
-        equals(root.right, q)
-        ||
-        equals(root.left, q) &&
-        equals(root.right,p))
-    {
-        return root;
-    }
-    else
-    {
-        let expandLeft = lowestCommonAncestor(root.left, q, p);
-        if(expandLeft)
-        {
-            return expandLeft;
-        }
+    let paths = {};
+    search(root, null, p, q, paths);
+    const pathQ = paths[q.val];
+    const pathP = paths[p.val];
+
+    const pathsConcat = pathQ.concat(pathP);
+    const valsSeen = {};
+
+    for (let i = 0; i < pathsConcat.length; i++) {
+        let val = pathsConcat[i];
+        if(valsSeen[val])
+            return val;
         else
-        {
-            let expandRight = lowestCommonAncestor(root.right, q, p);
-            if(expandRight)
-                return expandRight;
-            else
-                return null;
-        }
+            valsSeen[val] = true;
     }
 };
 
@@ -87,11 +112,23 @@ node2.right = node4;
 node1.left = node0;
 node1.right = node8;
 
-console.log(JSON.stringify(lowestCommonAncestor(node3, node5, node1)));
+console.log("Common ancestor of 5, 4")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node5, node4)));
+
+console.log("Common ancestor of 5, 1")
+JSON.stringify(lowestCommonAncestor(node3, node5, node1));
+
+console.log("Common ancestor of 7, 4")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node7, node4)));
+
+console.log("Common ancestor of 2, 4")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node2, node7)));
-console.log(JSON.stringify(lowestCommonAncestor(node3, node5, node2)));
+
+console.log("Common ancestor of 1, 0")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node1, node0)));
+
+console.log("Common ancestor of 8, 1")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node8, node1)));
+
+console.log("Common ancestor of 7, 3")
 console.log(JSON.stringify(lowestCommonAncestor(node3, node7, node3)));
