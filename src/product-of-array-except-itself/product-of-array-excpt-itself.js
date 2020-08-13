@@ -3,4 +3,5 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
+    
 };

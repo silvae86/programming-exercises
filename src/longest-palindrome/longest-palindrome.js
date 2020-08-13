@@ -1,76 +1,64 @@
-/**
- *
- * @param s
- * @param palindromeDict
- * @returns {boolean}
- */
-const isPalindrome = function (s, palindromeDict) {
-    if (s.length === 0) {
-        return true;
-    }
-    if (s.length === 1)
-        return true;
-    else {
-        const first = s.charAt(0);
-        const last = s.charAt(s.length - 1);
+const expand = function(s, b, e)
+{
+    let B = b;
+    let E = e;
 
-        if (first === last) {
-            const center = s.substring(1).substring(0, s.length - 2);
-            const centerIsPalindrome = isPalindrome(center, palindromeDict);
-            if(centerIsPalindrome)
-                palindromeDict[s] = true;
-            return centerIsPalindrome;
-        } else
-            return false;
-    }
-};
+    let left = s.charAt(B);
+    let right = s.charAt(E);
 
-const expandForward = function (s, start, palindromeDict, palindromeMatrix) {
-    for (let i = 0; start + i < s.length; i++) {
-        let substring = s.substr(start, i);
-        if (!palindromeDict[substring]) {
-            if (isPalindrome(substring, palindromeDict)) {
-                palindromeDict[substring] = true;
-            }
+    while(left === right)
+    {
+        if(B >= 0 && E < s.length)
+        {
+            B--;
+            E++;
+            left = s.charAt(B);
+            right = s.charAt(E);
         }
+        else
+            break;
     }
-};
 
-const expandBackwards = function (s, end, palindromeDict, palindromeMatrix) {
-    for (let i = 0; i < end; i++) {
-        let substring = s.substring(i, end + 1);
-        if (!palindromeDict[substring]) {
-            if (isPalindrome(substring, palindromeDict)) {
-                palindromeDict[substring] = true;
-            }
-        }
-    }
-};
+    const largestPalindromeAtS = s.substring(B + 1, E);
+    return largestPalindromeAtS;
+}
 
 const longestPalindrome = function (s) {
     if (s.length <= 1) {
         return s;
     } else {
-        const palindromeDict = {};
+        let longest = ""
         for (let i = 0; i < s.length; i++) {
-            expandForward(s, i, palindromeDict);
-            expandBackwards(s, i, palindromeDict);
-        }
-        let allPalindromes = Object.keys(palindromeDict);
-        if (allPalindromes.length >= 1) {
-            allPalindromes = allPalindromes.sort(function (a, b) {
-                return b.length - a.length;
-            })
+            const possiblePalindrome1 = expand(s, i, i);
+            const possiblePalindrome2 = expand(s, i, i+1);
 
-            return allPalindromes[0];
-        } else
-            return s;
+            if(possiblePalindrome1.length > longest.length)
+            {
+                longest = possiblePalindrome1;
+            }
+            if(possiblePalindrome2.length > longest.length)
+            {
+                longest = possiblePalindrome2;
+            }
+        }
+        return longest;
     }
 };
 
 const {performance} = require('perf_hooks');
 
-const strings = ["abba", "jrjnbctoqgzimtoklkxcknwmhiztomaofwwzjnhrijwkgmwwuazcowskjhitejnvtblqyepxispasrgvgzqlvrmvhxusiqqzzibcyhpnruhrgbzsmlsuacwptmzxuewnjzmwxbdzqyvsjzxiecsnkdibudtvthzlizralpaowsbakzconeuwwpsqynaxqmgngzpovauxsqgypinywwtmekzhhlzaeatbzryreuttgwfqmmpeywtvpssznkwhzuqewuqtfuflttjcxrhwexvtxjihunpywerkktbvlsyomkxuwrqqmbmzjbfytdddnkasmdyukawrzrnhdmaefzltddipcrhuchvdcoegamlfifzistnplqabtazunlelslicrkuuhosoyduhootlwsbtxautewkvnvlbtixkmxhngidxecehslqjpcdrtlqswmyghmwlttjecvbueswsixoxmymcepbmuwtzanmvujmalyghzkvtoxynyusbpzpolaplsgrunpfgdbbtvtkahqmmlbxzcfznvhxsiytlsxmmtqiudyjlnbkzvtbqdsknsrknsykqzucevgmmcoanilsyyklpbxqosoquolvytefhvozwtwcrmbnyijbammlzrgalrymyfpysbqpjwzirsfknnyseiujadovngogvptphuyzkrwgjqwdhtvgxnmxuheofplizpxijfytfabx", "forgeeksskeegfor", "aabb", "aaaabbbb", "aab", "aa", "a", "abccba", "abc", ""];
+const strings = ["aa",
+    "forgeeksskeegfor",
+    "abba",
+    "jrjnbctoqgzimtoklkxcknwmhiztomaofwwzjnhrijwkgmwwuazcowskjhitejnvtblqyepxispasrgvgzqlvrmvhxusiqqzzibcyhpnruhrgbzsmlsuacwptmzxuewnjzmwxbdzqyvsjzxiecsnkdibudtvthzlizralpaowsbakzconeuwwpsqynaxqmgngzpovauxsqgypinywwtmekzhhlzaeatbzryreuttgwfqmmpeywtvpssznkwhzuqewuqtfuflttjcxrhwexvtxjihunpywerkktbvlsyomkxuwrqqmbmzjbfytdddnkasmdyukawrzrnhdmaefzltddipcrhuchvdcoegamlfifzistnplqabtazunlelslicrkuuhosoyduhootlwsbtxautewkvnvlbtixkmxhngidxecehslqjpcdrtlqswmyghmwlttjecvbueswsixoxmymcepbmuwtzanmvujmalyghzkvtoxynyusbpzpolaplsgrunpfgdbbtvtkahqmmlbxzcfznvhxsiytlsxmmtqiudyjlnbkzvtbqdsknsrknsykqzucevgmmcoanilsyyklpbxqosoquolvytefhvozwtwcrmbnyijbammlzrgalrymyfpysbqpjwzirsfknnyseiujadovngogvptphuyzkrwgjqwdhtvgxnmxuheofplizpxijfytfabx",
+    "forgeeksskeegfor",
+    "aabb",
+    "aaaabbbb",
+    "aab",
+    "a",
+    "abccba",
+    "abc",
+    ""];
 
 
 var t0 = performance.now()
