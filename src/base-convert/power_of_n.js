@@ -6,6 +6,6 @@ const powerOfN = function (number, n)
         return true;
     else
         return false;
-}
+};
 
 console.log(powerOfN(256,2));

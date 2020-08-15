@@ -21,13 +21,13 @@ const expand = function(s, b, e)
 
     const largestPalindromeAtS = s.substring(B + 1, E);
     return largestPalindromeAtS;
-}
+};
 
 const longestPalindrome = function (s) {
     if (s.length <= 1) {
         return s;
     } else {
-        let longest = ""
+        let longest = "";
         for (let i = 0; i < s.length; i++) {
             const possiblePalindrome1 = expand(s, i, i);
             const possiblePalindrome2 = expand(s, i, i+1);
@@ -61,9 +61,9 @@ const strings = ["aa",
     ""];
 
 
-var t0 = performance.now()
+var t0 = performance.now();
 for (let i = 0; i < strings.length; i++) {
     console.log(`"${strings[i]}" longest palindrome is ${longestPalindrome(strings[i])}`);
 }
-var t1 = performance.now()
-console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+var t1 = performance.now();
+console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");

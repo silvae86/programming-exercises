@@ -3,7 +3,7 @@ const sort = function(array)
     return array.sort(function(a,b){
         return a > b;
     });
-}
+};
 
 var wiggleSort = function(nums) {
     let medianPos;
@@ -13,7 +13,7 @@ var wiggleSort = function(nums) {
     // even number of nums
     if(sortedNums.length % 2 === 0)
     {
-        medianPos = Math.ceil(sortedNums.length / 2)
+        medianPos = Math.ceil(sortedNums.length / 2);
         for (let i = 0; i < medianPos; i++) {
             nums.push(sortedNums[i]);
             nums.push(sortedNums[medianPos + i]);
@@ -54,29 +54,29 @@ const validate = function(array)
     }
 
     return true;
-}
+};
 
 let nums = [1,5,1,1,6,4];
 wiggleSort(nums);
 console.log(validate(nums));
 
-nums = [1, 3, 2, 2, 3, 1]
+nums = [1, 3, 2, 2, 3, 1];
 wiggleSort(nums);
 console.log(validate(nums));
 
-nums = [1, 5, 1, 1, 6, 4]
+nums = [1, 5, 1, 1, 6, 4];
 wiggleSort(nums);
 console.log(validate(nums));
 
-nums = [-3, -1, -1, -2]
+nums = [-3, -1, -1, -2];
 wiggleSort(nums);
 console.log(validate(nums));
 
-nums = [-3, 1, 1, 20]
+nums = [-3, 1, 1, 20];
 wiggleSort(nums);
 console.log(validate(nums));
 
-nums = [-1,2,-1]
+nums = [-1,2,-1];
 wiggleSort(nums);
 console.log(validate(nums));
 

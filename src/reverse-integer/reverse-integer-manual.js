@@ -22,16 +22,16 @@ var reverse = function(x) {
     }
 
     if(reversedNumber > Math.pow(2,31) - 1)
-        return 0
+        return 0;
     else
         return reversedNumber * multiplier;
 };
 
 const {performance} = require('perf_hooks');
-var t0 = performance.now()
+var t0 = performance.now();
 console.log(reverse(-123));
 console.log(reverse(Number.MAX_VALUE));
 console.log(reverse(1534236469));
 console.log(reverse(Number.MAX_SAFE_INTEGER / 2));
-var t1 = performance.now()
-console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+var t1 = performance.now();
+console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");

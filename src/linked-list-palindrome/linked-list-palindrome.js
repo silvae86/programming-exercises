@@ -1,7 +1,7 @@
 
 // Definition for singly-linked list.
 function ListNode(val, next) {
-     this.val = (val===undefined ? 0 : val)
+     this.val = (val===undefined ? 0 : val);
      this.next = (next===undefined ? null : next);
      this.stats = function()
      {
@@ -15,12 +15,12 @@ function ListNode(val, next) {
          }
 
          return { length: i, last: head };
-     }
+     };
     this.print = function length()
     {
         let i = 0;
         let head = this;
-        let string = "["
+        let string = "[";
 
         while(head.next)
         {
@@ -83,7 +83,7 @@ var splitAndReverseFirstHalf = function(head)
     const firstHalf = prev;
 
     return {first: firstHalf, second: secondHalf};
-}
+};
 
 /**
  * @param {ListNode} head
@@ -106,5 +106,5 @@ var isPalindrome = function(head) {
     return true;
 };
 
-isPalindrome(nodeNonPalindrome)
-isPalindrome(nodepalindrome)
+isPalindrome(nodeNonPalindrome);
+isPalindrome(nodepalindrome);

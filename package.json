@@ -2,7 +2,9 @@
   "name": "programming-exercises",
   "version": "1.0.0",
   "description": "Solutions of programming exercises",
-  "engines" : { "node" : ">=14.0" },
+  "engines": {
+    "node": ">=14.0"
+  },
   "dependencies": {
     "@loopback/tslint-config": "^2.1.0",
     "babel-eslint": "^10.1.0",

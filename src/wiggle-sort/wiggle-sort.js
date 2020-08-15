@@ -30,7 +30,7 @@ let findNode = function(node, value)
         else if(node.value > value)
             return findNode(node.left);
     }
-}
+};
 
 let insertNode = function(node, value)
 {
@@ -74,7 +74,7 @@ let insertNode = function(node, value)
             insertNode(node.right, value);
         }
     }
-}
+};
 
 var getSmallest = function(node)
 {

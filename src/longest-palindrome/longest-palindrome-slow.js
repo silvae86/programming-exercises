@@ -56,7 +56,7 @@ const longestPalindromeSlow = function (s) {
         if (allPalindromes.length >= 1) {
             allPalindromes = allPalindromes.sort(function (a, b) {
                 return b.length - a.length;
-            })
+            });
 
             return allPalindromes[0];
         } else
@@ -68,9 +68,9 @@ const {PerformanceObserver, performance} = require('perf_hooks');
 
 const strings = ["jrjnbctoqgzimtoklkxcknwmhiztomaofwwzjnhrijwkgmwwuazcowskjhitejnvtblqyepxispasrgvgzqlvrmvhxusiqqzzibcyhpnruhrgbzsmlsuacwptmzxuewnjzmwxbdzqyvsjzxiecsnkdibudtvthzlizralpaowsbakzconeuwwpsqynaxqmgngzpovauxsqgypinywwtmekzhhlzaeatbzryreuttgwfqmmpeywtvpssznkwhzuqewuqtfuflttjcxrhwexvtxjihunpywerkktbvlsyomkxuwrqqmbmzjbfytdddnkasmdyukawrzrnhdmaefzltddipcrhuchvdcoegamlfifzistnplqabtazunlelslicrkuuhosoyduhootlwsbtxautewkvnvlbtixkmxhngidxecehslqjpcdrtlqswmyghmwlttjecvbueswsixoxmymcepbmuwtzanmvujmalyghzkvtoxynyusbpzpolaplsgrunpfgdbbtvtkahqmmlbxzcfznvhxsiytlsxmmtqiudyjlnbkzvtbqdsknsrknsykqzucevgmmcoanilsyyklpbxqosoquolvytefhvozwtwcrmbnyijbammlzrgalrymyfpysbqpjwzirsfknnyseiujadovngogvptphuyzkrwgjqwdhtvgxnmxuheofplizpxijfytfabx", "forgeeksskeegfor", "aabb", "aaaabbbb", "aab", "aa", "a", "abccba", "abc", ""];
 
-var t0 = performance.now()
+var t0 = performance.now();
 for (let i = 0; i < strings.length; i++) {
     console.log(`"${strings[i]}" longest palindrome is ${longestPalindromeSlow(strings[i])}`);
 }
-var t1 = performance.now()
-console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.")
+var t1 = performance.now();
+console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");

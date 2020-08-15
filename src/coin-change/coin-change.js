@@ -9,7 +9,7 @@ var sort = function(array)
     return array.sort(function(a, b){
         return a < b;
     })
-}
+};
 
 var expand = function (currentPath, coins, goalAmount)
 {
@@ -23,7 +23,7 @@ var expand = function (currentPath, coins, goalAmount)
     }
 
     return null;
-}
+};
 
 var coinChange = function(coins, amount) {
     coins = sort(coins);
