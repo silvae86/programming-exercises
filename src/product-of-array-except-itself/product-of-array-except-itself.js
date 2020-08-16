@@ -23,8 +23,6 @@ var getProductArrays = function (nums) {
 
 var productExceptSelf = function (nums) {
     const products = new Array(nums.length);
-    const productsFromLeft = [];
-    const productsFromRight = [];
 
     if (products.length === 0)
         return 0;
