@@ -4,6 +4,18 @@
  * @return {number[]}
  */
 
+var getMax = function (array) {
+    let currentMax = array[0];
+
+    for (let i = 1; i < array.length; i++) {
+        if (currentMax < array[i]) {
+            currentMax = array[i];
+        }
+    }
+
+    return currentMax;
+}
+
 var maxSlidingWindow = function (nums, k) {
     let maxWindow = [];
     let startOfWindow = 0;
@@ -29,10 +41,11 @@ var maxSlidingWindow = function (nums, k) {
         }
 
         maxWindow.push(currentMax);
+        startOfWindow++;
 
-        while (startOfWindow + k < nums.length) {
-            const newNumber = nums[startOfWindow + k];
-            const leavingNumber = nums[startOfWindow];
+        while (startOfWindow + k <= nums.length) {
+            const newNumber = nums[startOfWindow - 1 + k];
+            const leavingNumber = nums[startOfWindow - 1];
 
             numbersCount[leavingNumber]--;
 
@@ -41,14 +54,14 @@ var maxSlidingWindow = function (nums, k) {
             else
                 numbersCount[newNumber]++;
 
-            if (leavingNumber === currentMax && numbersCount[leavingNumber] < 1) {
-                let currentWindow = nums.slice(startOfWindow, k);
+            if (newNumber > currentMax) {
+                currentMax = newNumber;
+            } else if (leavingNumber === currentMax && numbersCount[leavingNumber] < 1) {
+                let currentWindow = nums.slice(startOfWindow, startOfWindow + k);
                 if (currentWindow.length > 1)
-                    currentMax = Math.max.apply(currentWindow);
+                    currentMax = getMax(currentWindow);
                 else
                     currentMax = currentWindow[0]
-            } else if (newNumber > currentMax) {
-                currentMax = newNumber;
             }
 
             maxWindow.push(currentMax);
@@ -63,11 +76,14 @@ const {performance} = require('perf_hooks');
 var t0 = performance.now();
 
 
-console.log(JSON.stringify(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3)));
-console.log(JSON.stringify(maxSlidingWindow([1, 2, 3, 5, 6, 7, 8, 9, 10], 3)));
-
+console.log(JSON.stringify(maxSlidingWindow([7, 2, 4], 2)));
 console.log(JSON.stringify(maxSlidingWindow([2, -3, 2], 2)));
 console.log(JSON.stringify(maxSlidingWindow([1, -1, 1], 2)));
+console.log(JSON.stringify(maxSlidingWindow([7, 2, 4, 9, 5, 10], 2)));
+console.log(JSON.stringify(maxSlidingWindow([10, 2, 10, 2, 10, 2, 2, 3, 4], 2)));
+
+console.log(JSON.stringify(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3)));
+console.log(JSON.stringify(maxSlidingWindow([1, 2, 3, 5, 6, 7, 8, 9, 10], 3)));
 
 console.log(JSON.stringify(maxSlidingWindow([1], 1)));
 console.log(JSON.stringify(maxSlidingWindow([1, -1], 1)));
