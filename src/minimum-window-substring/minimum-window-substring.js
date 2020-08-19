@@ -3,14 +3,14 @@
  * @return {string}
  */
 var getCharsDict = function (string) {
-    let charsDict = {};
+    let dict = {};
     for (let i = 0; i < string.length; i++) {
-        if (!charsDict[string[i]])
-            charsDict[string[i]] = 1;
+        if (!dict[string[i]])
+            dict[string[i]] = 1;
         else
-            charsDict[string[i]]++;
+            dict[string[i]]++;
     }
-    return charsDict;
+    return dict;
 }
 
 var registerWindow = function (s, tailPos, headPos, smallestWindow) {
@@ -22,16 +22,16 @@ var registerWindow = function (s, tailPos, headPos, smallestWindow) {
         return smallestWindow;
 }
 
-var search = function (s, searchDict) {
+var search = function (s, t) {
     let smallestWindow = "";
-    let missingChars = JSON.parse(JSON.stringify(searchDict));
-    let missingCharsCount = Object.keys(searchDict).length;
+    let missingChars = getCharsDict(t);
+    let missingCharsCount = Object.keys(missingChars).length;
     let tailPos = 0;
     let headPos = 0;
 
     while (headPos < s.length || tailPos < s.length) {
         while (headPos < s.length) {
-            if (!searchDict[s.charAt(headPos)])
+            if (!(s.charAt(headPos) in missingChars))
                 headPos++;
             else {
                 missingChars[s.charAt(headPos)]--;
@@ -49,21 +49,13 @@ var search = function (s, searchDict) {
         while (tailPos < s.length) {
             if (tailPos === headPos) {
                 break;
-            } else if (searchDict[s.charAt(tailPos)]) {
+            } else if (s.charAt(tailPos) in missingChars) {
                 if (missingCharsCount === 0) {
                     smallestWindow = registerWindow(s, tailPos, headPos, smallestWindow);
-                    missingChars[s.charAt(tailPos)]++;
-                    if (missingChars[s.charAt(tailPos)] === 1) {
-                        missingCharsCount++;
-                    }
-                    tailPos++;
-                } else if (headPos === s.length)
-                    tailPos++;
-                else
                     break;
-            } else {
+                }
+            } else
                 tailPos++;
-            }
         }
     }
 
@@ -71,7 +63,6 @@ var search = function (s, searchDict) {
 }
 
 var minWindow = function (s, t) {
-    const searchDict = getCharsDict(t);
     if (s === t) {
         return s;
     } else if (t.length > s.length)
@@ -82,5 +73,77 @@ var minWindow = function (s, t) {
         else
             return "";
     else
-        return search(s, searchDict);
+        return search(s, t);
 };
+
+const s_and_t = [
+    {
+        s: "ADOBECODEBANCADOBECODEBANC",
+        t: "ABC"
+    },
+    {
+        s: "AKBCDBBA",
+        t: "BA"
+    },
+    {
+        s: "A",
+        t: "A"
+    },
+    {
+        s: "ABC",
+        t: "AC"
+    },
+    {
+        s: "ABBC",
+        t: "ABC"
+    },
+    {
+        s: "ABBCD",
+        t: "AD"
+    },
+    {
+        s: "ABBCD",
+        t: "ABC"
+    },
+    {
+        s: "ABACCA",
+        t: "AC"
+    },
+    {
+        s: "ABBCD",
+        t: "ABCD"
+    },
+    {
+        s: "BBAAC",
+        t: "ABA"
+    },
+    {
+        s: "BBAA",
+        t: "ABA"
+    },
+    {
+        s: "ABC",
+        t: "B"
+    },
+    {
+        s: "ABC",
+        t: "C"
+    },
+    {
+        s: "ABC",
+        t: "A"
+    }
+]
+
+const {performance} = require('perf_hooks');
+var t0 = performance.now();
+
+for (let i = 0; i < s_and_t.length; i++) {
+    console.log(`For ${JSON.stringify(s_and_t[i])}: ${JSON.stringify(minWindow(s_and_t[i].s, s_and_t[i].t))}`);
+}
+
+var t1 = performance.now();
+console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+
+
+
