@@ -27,8 +27,8 @@ class Window {
         let aWindow = this.hay.substring(tailPos, headPos + 1)
         if ((this.minimal === null || aWindow.length < this.minimal.length)) {
             this.minimal = aWindow;
-            // console.log(this.minimal);
         }
+        return {aWindow, minimal: this.minimal}
     }
 
     finished() {
@@ -42,10 +42,10 @@ class Window {
                 this.missingChars[this.hay.charAt(newHeadPos)]--;
                 if (this.missingChars[this.hay.charAt(newHeadPos)] === 0)
                     this.missingCharsCount--;
-                if(this.missingCharsCount < 1)
-                {
+                if(this.missingCharsCount < 1) {
                     this.registerWindow(this.tailPos, newHeadPos);
-                    newHeadPos++;
+                    if (this.headPos < this.hay.length - 1)
+                        newHeadPos++;
                     break;
                 }
                 else
@@ -65,31 +65,23 @@ class Window {
 
     moveTailToNextNeedle() {
         let newTailPos = this.tailPos;
-        if(this.headPos === this.headPos && this.headPos === this.hay.length)
-            return;
-        else
-        {
-            while (
-                newTailPos < this.hay.length &&
-                newTailPos < this.headPos - 1
-                )
-            {
-                const newTailChar = this.hay.charAt(newTailPos);
-                if (newTailChar in this.missingChars && this.missingCharsCount <= 0) {
-                    this.missingChars[newTailChar]++;
-                    if (this.missingChars[newTailChar] === 1) {
-                        this.missingCharsCount++;
-                    }
-                    if(this.missingCharsCount <= 0)
-                        this.registerWindow(newTailPos, this.headPos);
-                    newTailPos++;
+        while (
+            newTailPos < this.hay.length &&
+            newTailPos < this.headPos - 1
+            ) {
+            const newTailChar = this.hay.charAt(newTailPos);
+            if (newTailChar in this.missingChars && this.missingCharsCount <= 0) {
+                this.missingChars[newTailChar]++;
+                if (this.missingChars[newTailChar] === 1) {
+                    this.missingCharsCount++;
                 }
-                else if (!(newTailChar in this.missingChars)) {
-                    newTailPos++;
-                }
-                else
-                    break;
-            }
+                if (this.missingCharsCount <= 0)
+                    this.registerWindow(newTailPos, this.headPos);
+                newTailPos++;
+            } else if (!(newTailChar in this.missingChars)) {
+                newTailPos++;
+            } else
+                break;
         }
 
         this.tailPos = newTailPos;
@@ -108,7 +100,7 @@ var search = function (s, t) {
     return window.minimal;
 }
 
-var minWindow = function (s, t) {
+module.exports.minWindow = function (s, t) {
     if (s === t) {
         return s;
     } else if (t.length > s.length)
@@ -122,78 +114,7 @@ var minWindow = function (s, t) {
         return search(s, t);
 };
 
-const s_and_t = [
-    {
-        s: "ADOBECODEBANC",
-        t: "ABC"
-    },
-    {
-        s: "ADOBECODEBANCADOBECODEBANC",
-        t: "ABC"
-    },
-    {
-        s: "AKBCDBBA",
-        t: "BA"
-    },
-    {
-        s: "A",
-        t: "A"
-    },
-    {
-        s: "ABC",
-        t: "AC"
-    },
-    {
-        s: "ABBC",
-        t: "ABC"
-    },
-    {
-        s: "ABBCD",
-        t: "AD"
-    },
-    {
-        s: "ABBCD",
-        t: "ABC"
-    },
-    {
-        s: "ABACCA",
-        t: "AC"
-    },
-    {
-        s: "ABBCD",
-        t: "ABCD"
-    },
-    {
-        s: "BBAAC",
-        t: "ABA"
-    },
-    {
-        s: "BBAA",
-        t: "ABA"
-    },
-    {
-        s: "ABC",
-        t: "B"
-    },
-    {
-        s: "ABC",
-        t: "C"
-    },
-    {
-        s: "ABC",
-        t: "A"
-    }
-]
 
-const {performance} = require('perf_hooks');
-var t0 = performance.now();
-
-for (let i = 0; i < s_and_t.length; i++) {
-    console.log(`For ${JSON.stringify(s_and_t[i])}: ${JSON.stringify(minWindow(s_and_t[i].s, s_and_t[i].t))}`);
-}
-
-var t1 = performance.now();
-console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
 
 
 
