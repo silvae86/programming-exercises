@@ -12,8 +12,17 @@ describe('Minimum Window Substring', function () {
         it('Should extract BANC from s = ADOBECODEBANCADOBECODEBANC and t = ABC', function () {
             assert.equal(minWindow("ADOBECODEBANCADOBECODEBANC", "ABC"), "BANC");
         });
-        it('Should extract BA from s = AKBCDBBA and t = ABC', function () {
+        it('Should extract AKBC from s = AKBCDBBA and t = ABC', function () {
             assert.equal(minWindow("AKBCDBBA", "ABC"), "AKBC");
+        });
+        it('Should extract CDBBA from s = AKKKKBCDBBA and t = ABC', function () {
+            assert.equal(minWindow("AKKKKBCDBBA", "ABC"), "CDBBA");
+        });
+        it('Should extract CDABCA from s = ABACDABBAC and t = ABCC', function () {
+            assert.equal(minWindow("ABACDABCAB", "ABCC"), "CDABCA");
+        });
+        it('Should extract BBAC from s = ABACDABBAC and t = BCBA', function () {
+            assert.equal(minWindow("ABACDABBAC", "BCBA"), "BBAC");
         });
         it('Should extract A from s = A and t = A', function () {
             assert.equal(minWindow("A", "A"), "A");
@@ -30,14 +39,26 @@ describe('Minimum Window Substring', function () {
         it('Should extract ABBC from s = ABBCD and t = ABC', function () {
             assert.equal(minWindow("ABBCD", "ABC"), "ABBC");
         });
-        it('Should extract AC from s = ABACCA and t = AC', function () {
-            assert.equal(minWindow("ABACCA", "AC"), "AC");
+        it('Should extract CA from s = ABACCA and t = AC', function () {
+            assert.equal(minWindow("ABACCA", "AC"), "CA");
         });
-        it('Should extract ABBCD from s = ABBCD and t = ABBCD', function () {
-            assert.equal(minWindow("ABBCD", "ABCD"), "ABBCD");
+        it('Should extract CA from s = ABACCAXXXXXXX and t = AC', function () {
+            assert.equal(minWindow("ABACCAXXXXXXX", "AC"), "CA");
+        });
+        it('Should extract CA from s = ABACCAXXXXXXXA and t = AC', function () {
+            assert.equal(minWindow("ABACCAXXXXXXXA", "AC"), "CA");
+        });
+        it('Should extract CA from s = ABACCAX and t = AC', function () {
+            assert.equal(minWindow("ABACCAX", "AC"), "CA");
+        });
+        it('Should extract CA from s = ABACCAA and t = AC', function () {
+            assert.equal(minWindow("ABACCAA", "AC"), "CA");
         });
         it('Should extract BAA from s = ABA and t = BBAAC', function () {
             assert.equal(minWindow("BBAAC", "ABA"), "BAA");
+        });
+        it('Should extract ABBCD from s = ABBCD and t = ABBCD', function () {
+            assert.equal(minWindow("ABBCD", "ABCD"), "ABBCD");
         });
         it('Should extract BAA from s = ABA and t = BBAA', function () {
             assert.equal(minWindow("BBAA", "ABA"), "BAA");

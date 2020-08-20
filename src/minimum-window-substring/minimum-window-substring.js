@@ -2,7 +2,7 @@
  * @param {string} string
  * @return {string}
  */
-var getCharsDict = function (string) {
+const getCharsDict = function (string) {
     let dict = {};
     for (let i = 0; i < string.length; i++) {
         if (!dict[string[i]])
@@ -14,7 +14,9 @@ var getCharsDict = function (string) {
 }
 
 class Window {
+
     constructor(hay = "", needle = "", tailPos = 0, headPos = 0) {
+        this.needle = needle;
         this.missingChars = getCharsDict(needle);
         this.missingCharsCount = Object.keys(this.missingChars).length;
         this.tailPos = tailPos;
@@ -23,69 +25,68 @@ class Window {
         this.hay = hay;
     }
 
-    registerWindow (tailPos, headPos) {
-        let aWindow = this.hay.substring(tailPos, headPos + 1)
-        if ((this.minimal === null || aWindow.length < this.minimal.length)) {
+    registerMinimal() {
+        let aWindow = this.getCurrent();
+        let windowChanged = false;
+        if ((this.minimal === null || aWindow.length <= this.minimal.length)) {
+            windowChanged = true;
             this.minimal = aWindow;
         }
-        return {aWindow, minimal: this.minimal}
+        return this.minimal;
     }
 
-    finished() {
-        return (this.headPos === this.headPos && this.headPos === this.hay.length)
+    isFinished() {
+        return (
+            (this.headPos === this.headPos && this.headPos === this.hay.length)
+        )
     }
 
-    moveHeadToNextNeedle() {
-        let newHeadPos = this.headPos;
-        while (newHeadPos < this.hay.length) {
-            if (this.hay.charAt(newHeadPos) in this.missingChars) {
-                this.missingChars[this.hay.charAt(newHeadPos)]--;
-                if (this.missingChars[this.hay.charAt(newHeadPos)] === 0)
-                    this.missingCharsCount--;
-                if(this.missingCharsCount < 1) {
-                    this.registerWindow(this.tailPos, newHeadPos);
-                    if (this.headPos < this.hay.length - 1)
-                        newHeadPos++;
-                    break;
-                }
-                else
-                {
-                    newHeadPos++;
-                }
-            }
-            else
-            {
-                newHeadPos++;
-            }
+    oneLessMissing(position) {
+        const char = this.hay.charAt(position);
+        if (char in this.missingChars) {
+            this.missingChars[char]--;
+            if (this.missingChars[char] === 0)
+                this.missingCharsCount--;
         }
+    }
 
-        this.headPos = newHeadPos;
+    oneMoreMissing(position) {
+        const char = this.hay.charAt(position);
+        if (char in this.missingChars) {
+            this.missingChars[char]++;
+            if (this.missingChars[char] === 1)
+                this.missingCharsCount++;
+        }
+    }
+
+    isComplete() {
+        return this.missingCharsCount < 1;
+    }
+
+    charIsRequired(position) {
+        return this.hay.charAt(position) in this.missingChars;
+    }
+
+    moveHeadForward() {
+        if (this.charIsRequired(this.headPos)) {
+            this.oneLessMissing(this.headPos);
+            if (this.isComplete())
+                this.registerMinimal();
+        }
+        this.headPos++;
         return this.headPos;
     }
 
-    moveTailToNextNeedle() {
-        let newTailPos = this.tailPos;
-        while (
-            newTailPos < this.hay.length &&
-            newTailPos < this.headPos - 1
-            ) {
-            const newTailChar = this.hay.charAt(newTailPos);
-            if (newTailChar in this.missingChars && this.missingCharsCount <= 0) {
-                this.missingChars[newTailChar]++;
-                if (this.missingChars[newTailChar] === 1) {
-                    this.missingCharsCount++;
-                }
-                if (this.missingCharsCount <= 0)
-                    this.registerWindow(newTailPos, this.headPos);
-                newTailPos++;
-            } else if (!(newTailChar in this.missingChars)) {
-                newTailPos++;
-            } else
-                break;
+    moveTailForward() {
+        if (this.charIsRequired(this.tailPos)) {
+            this.oneMoreMissing(this.tailPos);
         }
+        this.tailPos++;
+        return this.tailPos;
+    }
 
-        this.tailPos = newTailPos;
-        return newTailPos;
+    getCurrent() {
+        return this.hay.substring(this.tailPos, (this.headPos + 1))
     }
 }
 
@@ -93,9 +94,24 @@ var search = function (s, t) {
     let window = new Window(s, t);
 
     do {
-        window.moveHeadToNextNeedle();
-        window.moveTailToNextNeedle();
-    } while (!window.finished())
+        while (window.headPos < window.hay.length) {
+            if (!window.isComplete()) {
+                window.moveHeadForward();
+            } else {
+                window.registerMinimal();
+                break;
+            }
+        }
+
+        while (window.tailPos < window.hay.length) {
+            window.moveTailForward();
+            if (!window.isComplete()) {
+                break;
+            } else {
+                window.registerMinimal();
+            }
+        }
+    } while (!window.isFinished())
 
     return window.minimal;
 }
