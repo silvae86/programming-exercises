@@ -6,6 +6,12 @@ var t0 = performance.now();
 
 describe('Minimum Window Substring', function () {
     describe('Test Cases', function () {
+        it('Should extract \"\" from s = BABB and t = BABA', function () {
+            assert.equal(minWindow("BABB", "BABA"), "");
+        });
+        it('Should extract BABA from s = BABA and t = BABA', function () {
+            assert.equal(minWindow("BABA", "BABA"), "BABA");
+        });
         it('Should extract BANC from s = ADOBECODEBANC and t = ABC', function () {
             assert.equal(minWindow("ADOBECODEBANC", "ABC"), "BANC");
         });
@@ -18,8 +24,8 @@ describe('Minimum Window Substring', function () {
         it('Should extract CDBBA from s = AKKKKBCDBBA and t = ABC', function () {
             assert.equal(minWindow("AKKKKBCDBBA", "ABC"), "CDBBA");
         });
-        it('Should extract CDABCA from s = ABACDABBAC and t = ABCC', function () {
-            assert.equal(minWindow("ABACDABCAB", "ABCC"), "CDABCA");
+        it('Should extract CDABC from s = ABACDABBAC and t = ABCC', function () {
+            assert.equal(minWindow("ABACDABCAB", "ABCC"), "CDABC");
         });
         it('Should extract BBAC from s = ABACDABBAC and t = BCBA', function () {
             assert.equal(minWindow("ABACDABBAC", "BCBA"), "BBAC");

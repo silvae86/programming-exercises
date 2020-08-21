@@ -59,8 +59,34 @@ class Window {
         }
     }
 
-    isComplete() {
-        return this.missingCharsCount < 1;
+    checkHeadSaveIfComplete() {
+        let isComplete = false;
+        if (this.charIsRequired(this.headPos)) {
+            this.oneLessMissing(this.headPos);
+            if (this.missingCharsCount < 1) {
+                this.becameComplete = true;
+                this.registerMinimal();
+            }
+        }
+        if (!this.becameComplete)
+            this.moveHeadForward();
+        return (this.missingCharsCount < 1 || this.becameComplete);
+    }
+
+    checkTailSaveIfComplete() {
+        if (this.charIsRequired(this.tailPos)) {
+            if (this.missingCharsCount < 1) {
+                this.registerMinimal();
+                this.oneMoreMissing(this.tailPos);
+                this.tailPos++;
+            }
+        } else {
+            this.tailPos++;
+            if (this.missingCharsCount < 1) {
+                this.registerMinimal();
+            }
+        }
+        return (this.missingCharsCount < 1);
     }
 
     charIsRequired(position) {
@@ -68,21 +94,13 @@ class Window {
     }
 
     moveHeadForward() {
-        if (this.charIsRequired(this.headPos)) {
-            this.oneLessMissing(this.headPos);
-            if (this.isComplete())
-                this.registerMinimal();
-        }
         this.headPos++;
         return this.headPos;
     }
 
-    moveTailForward() {
-        if (this.charIsRequired(this.tailPos)) {
-            this.oneMoreMissing(this.tailPos);
-        }
-        this.tailPos++;
-        return this.tailPos;
+    moveHeadBackward() {
+        this.headPos--;
+        return this.headPos;
     }
 
     getCurrent() {
@@ -95,28 +113,26 @@ var search = function (s, t) {
 
     do {
         while (window.headPos < window.hay.length) {
-            if (!window.isComplete()) {
-                window.moveHeadForward();
-            } else {
-                window.registerMinimal();
+            if (window.checkHeadSaveIfComplete()) {
                 break;
             }
         }
 
         while (window.tailPos < window.hay.length) {
-            window.moveTailForward();
-            if (!window.isComplete()) {
+            if (!window.checkTailSaveIfComplete()) {
                 break;
-            } else {
-                window.registerMinimal();
             }
         }
+
+        if (window.becameComplete)
+            window.moveHeadForward();
+
     } while (!window.isFinished())
 
     return window.minimal;
 }
 
-module.exports.minWindow = function (s, t) {
+const minWindow = function (s, t) {
     if (s === t) {
         return s;
     } else if (t.length > s.length)
@@ -126,11 +142,15 @@ module.exports.minWindow = function (s, t) {
             return t;
         else
             return "";
-    else
-        return search(s, t);
+    else {
+        const result = search(s, t);
+        if (result === null)
+            return "";
+        else
+            return result;
+    }
 };
 
 
-
-
+module.exports.minWindow = minWindow;
 
