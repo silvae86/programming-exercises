@@ -3,7 +3,7 @@
  * @return {number}
  */
 
-class Jump {
+class Record {
     origin;
     destination;
     character;
@@ -25,17 +25,55 @@ var longestValidParentheses = function(s) {
         let t = 0;
         let bh = 0;
         let bt = 0;
-        const jumps = {};
+        const cache = {};
         const stack = [];
 
-        while (h < s.length && t < s.length) {
+        while ( t < s.length || (bh - bt) < (s.length - t) ) {
             const hChar = s.charAt(h);
             if (hChar === "(") {
-                stack.push(new Jump(h, null, hChar));
+                let r = cache[hChar];
+                if(!r)
+                {
+                    r = new Record(h, null, hChar);
+                    cache[hChar] = r;
+                }
+                stack.push(r);
             } else if (hChar === ")") {
+                if(stack.length === 0)
+                    break;
+                else
+                {
+                    const r = stack.pop();
+                    if(stack.length === 0)
+                    {
+                        r.destination = h;
+                        cache[h] = r;
+                        bh = h;
+                        bt = t;
+                    }
+                }
+            }
 
+            h++;
+
+            if(h === s.length)            {
+                // aqui entra a cache depois, para saltar a tail
+                // logo para o fim da maior sequencia válida
+                // vista entretanto
+
+                if(!bh && !bt)
+                {
+                    t++;
+                    h = t;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
+
+        return bh - bt + 1;
     }
 };
 
