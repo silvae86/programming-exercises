@@ -22,7 +22,6 @@ var isValid = function (s) {
         matcher[open[i]] = close[i];
     }
 
-
     const stack = [];
 
     for (let i = 0; i < s.length; i++) {
