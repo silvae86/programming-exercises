@@ -3,7 +3,7 @@
  * @return {number}
  */
 
-class Teleport {
+class Jump {
     origin;
     destination;
     character;
@@ -25,13 +25,14 @@ var longestValidParentheses = function(s) {
         let t = 0;
         let bh = 0;
         let bt = 0;
-        const teleports = {};
+        const jumps = {};
         const stack = [];
-        return;
-        while (h < s.length && t < s.length) {
-            if (s.charAt(h) === "(") {
 
-            } else if (s.charAt(h) === ")") {
+        while (h < s.length && t < s.length) {
+            const hChar = s.charAt(h);
+            if (hChar === "(") {
+                stack.push(new Jump(h, null, hChar));
+            } else if (hChar === ")") {
 
             }
         }
