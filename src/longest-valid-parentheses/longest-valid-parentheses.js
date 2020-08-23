@@ -23,8 +23,8 @@ var longestValidParentheses = function(s) {
     else {
         let h = 0;
         let t = 0;
-        let bh = 0;
-        let bt = 0;
+        let bh = null;
+        let bt = null;
         const cache = {};
         const stack = [];
 
@@ -35,12 +35,21 @@ var longestValidParentheses = function(s) {
                 if(!r)
                 {
                     r = new Record(h, null, hChar);
-                    cache[hChar] = r;
+                    cache[h] = r;
                 }
                 stack.push(r);
             } else if (hChar === ")") {
-                if(stack.length === 0)
-                    break;
+                if(stack.length === 0) {
+                    if ((bh - bt) < (h - t)) {
+                        bh = h - 1;
+                        bt = t;
+                        continue;
+                    } else {
+                        t++;
+                        h = t;
+                        continue;
+                    }
+                }
                 else
                 {
                     const r = stack.pop();
@@ -73,7 +82,10 @@ var longestValidParentheses = function(s) {
             }
         }
 
-        return bh - bt + 1;
+        if (bh !== null && bt !== null) {
+            return bh - bt + 1;
+        } else
+            return 0;
     }
 };
 
