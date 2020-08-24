@@ -10,6 +10,16 @@ describe('Longest Valid Parenthesis', function () {
             assert.equal(longestValidParentheses(""), 0);
         });
     });
+
+    describe('Failed from leetcode', function () {
+        it('Input: )()())()()(, output = 4', function () {
+            assert.equal(longestValidParentheses(")()())()()("), 4);
+        });
+        it('Input: )()()(()()(, output = 4', function () {
+            assert.equal(longestValidParentheses(")()()(()()("), 4);
+        });
+    });
+
     describe('Open open close close', function () {
         it('Input: (()), output = 4', function () {
             assert.equal(longestValidParentheses("(())"), 4);
@@ -47,6 +57,9 @@ describe('Longest Valid Parenthesis', function () {
     });
 
     describe('Open and close, open and close and junk at start or end', function () {
+        it('Input: )()()()((, output = 6', function () {
+            assert.equal(longestValidParentheses(")()()()(("), 6);
+        });
         it('Input: )() , output = 2', function () {
             assert.equal(longestValidParentheses(")()"), 2);
         });
@@ -68,6 +81,12 @@ describe('Longest Valid Parenthesis', function () {
         it('Input: (((((()))))))))))))))))) , output = 12', function () {
             assert.equal(longestValidParentheses("(((((())))))))))))))))))"), 12);
         });
+        it('Input: )()())())))()(, output = 4', function () {
+            assert.equal(longestValidParentheses(")()())()()("), 4);
+        });
+        it('Input: )()())()()()(, output = 6', function () {
+            assert.equal(longestValidParentheses(")()())()()()("), 6);
+        });
     });
 
     describe('Open and close, open and close and junk at middle', function () {
@@ -76,6 +95,15 @@ describe('Longest Valid Parenthesis', function () {
         });
         it('Input: ()()(((-->()()()<--( , output = 6', function () {
             assert.equal(longestValidParentheses("()()(((()()()("), 6);
+        });
+        it('Input: ()()(((-->((()))<--( , output = 6', function () {
+            assert.equal(longestValidParentheses("()()(((((()))("), 6);
+        });
+        it('Input: ()()(((-->((()))<--(((((((((( , output = 6', function () {
+            assert.equal(longestValidParentheses("()()(((((()))(((((((((("), 6);
+        });
+        it('Input: ()()(((((()))()))))))) , output = 18', function () {
+            assert.equal(longestValidParentheses("()()(((((()))())))))))"), 18);
         });
     });
 
