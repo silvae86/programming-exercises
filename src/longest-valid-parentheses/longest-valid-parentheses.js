@@ -3,54 +3,6 @@
  * @return {number}
  */
 
-class Shortcut {
-    origin;
-    destination;
-
-    static shortcutsByOrigin = {};
-    static shortcutsByDestination = {};
-
-    constructor(origin) {
-        this.origin = origin;
-    }
-
-    static getByOrigin(origin) {
-        if (Shortcut.shortcutsByOrigin[origin] == null) {
-            Shortcut.shortcutsByOrigin[origin] = new Shortcut(origin);
-            return Shortcut.shortcutsByOrigin[origin];
-        } else {
-            return Shortcut.shortcutsByOrigin[origin];
-        }
-    }
-
-    static getByDestination(destination) {
-        return Shortcut.shortcutsByDestination[destination];
-    }
-
-    static jumpFrom(origin) {
-        if (Shortcut.shortcutsByOrigin[origin]) {
-            return Shortcut.shortcutsByOrigin[origin].destination;
-        } else {
-            return origin;
-        }
-    }
-
-    static jumpBackFrom(destination) {
-        if (Shortcut.shortcutsByDestination[destination]) {
-            return Shortcut.shortcutsByDestination[destination].origin;
-        } else {
-            return destination;
-        }
-    }
-
-    update(origin, destination) {
-        if (Shortcut.shortcutsByDestination[origin]) {
-            Shortcut.shortcutsByDestination[origin].destination = destination;
-        }
-        this.destination = destination;
-    }
-}
-
 var canStillFindALongerSequence = function (bh, bt, s, t) {
     return ((bh === null && bt === null) && (t < s.length)) ||
         ((bh !== null && bt !== null) && (bh - bt) < (s.length - t))
@@ -67,41 +19,45 @@ var longestValidParentheses = function(s) {
         let bh = null;
         let bt = null;
         let stack = [];
+        let firstOpenParenthesis;
 
         while (canStillFindALongerSequence(bh, bt, s, t)) {
             const hChar = s.charAt(h);
             if (hChar === "(") {
-                stack.push(Shortcut.getByOrigin(t));
+                if (!firstOpenParenthesis) {
+                    t = h;
+                    firstOpenParenthesis = t;
+                }
+                stack.push(h);
             } else if (hChar === ")") {
                 if(stack.length === 0) {
-                    if (Shortcut.getByOrigin(t)) {
-                        Shortcut.getByOrigin(t).update(h);
-                    }
-
-                    if ((h - t) > (bh - bt)) {
-                        bh = h - 1;
-                        bt = t;
-                        t = h;
-                        h++;
-                        continue;
-                    } else {
-                        t = Shortcut.jumpBackFrom(h) + 1;
+                    if (!firstOpenParenthesis) {
+                        t++;
                         h = t;
                         continue;
+                    } else {
+                        if ((h - firstOpenParenthesis) > (bh - bt)) {
+                            bh = h - 1;
+                            bt = firstOpenParenthesis;
+                            h++;
+                            continue;
+                        } else {
+                            t = firstOpenParenthesis;
+                            h++;
+                            continue;
+                        }
                     }
                 }
                 else
                 {
                     const r = stack.pop();
-                    if(stack.length === 0)
-                    {
-                        r.update(h);
-                        if ((h - t) > (bh - bt)) {
-                            bt = t;
+                    if(stack.length === 0) {
+                        if (firstOpenParenthesis && (h - firstOpenParenthesis) > (bh - bt)) {
+                            bt = firstOpenParenthesis;
                             bh = h;
                             continue;
                         } else {
-                            t = Shortcut.jumpBackFrom(h) + 1;
+                            t = t++;
                             h = t;
                             continue;
                         }
@@ -113,6 +69,7 @@ var longestValidParentheses = function(s) {
                 t++;
                 h = t;
                 stack = [];
+                firstOpenParenthesis = null;
                 if (!canStillFindALongerSequence(bh, bt, s, t))
                 {
                     break;
