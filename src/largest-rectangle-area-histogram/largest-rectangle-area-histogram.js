@@ -3,6 +3,7 @@
  * @return {number}
  */
 var largestRectangleArea = function (heights) {
+    let maxArea = 0;
     if (heights.length === 0)
         return 0;
     if (heights.length === 1) {
@@ -14,23 +15,19 @@ var largestRectangleArea = function (heights) {
             return Math.min(heights[0], heights[1]) * 2;
         }
     } else {
-        let l = 0;
-        let r = heights.length - 1;
+        for (let t = 0; t < heights.length; t++) {
+            let min = heights[t];
+            for (let h = t; h < heights.length; h++) {
+                if (heights[h] < min) {
+                    min = heights[h];
+                }
 
-        let heightsWithoutEdges = heights.slice(1, heights.length - 1);
-        let minimumWithoutEdges = Math.min.apply(null, heightsWithoutEdges);
-        let minOverall = Math.min(heights[0], minimumWithoutEdges, heights[heights.length - 1]);
-        let areaOverall = minOverall * heights.length;
+                let newArea = min * (h - t + 1);
 
-        if (heights[l] <= heights[r]) {
-            l++;
-        } else {
-            r--;
+                if (newArea > maxArea)
+                    maxArea = newArea;
+            }
         }
-
-        const nextHeights = heights.slice(l, r + 1);
-        const maxArea = Math.max(areaOverall, largestRectangleArea(nextHeights));
-
 
         return maxArea;
     }
