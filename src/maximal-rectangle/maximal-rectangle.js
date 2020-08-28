@@ -14,8 +14,56 @@ const updateHistogram = function (previousHistogram, newRow) {
     return previousHistogram;
 };
 
-const largestAreaUnderHistogram = function (histogram) {
+const peek = function (stack) {
+    return stack[stack.length - 1];
+}
 
+const largestAreaUnderHistogram = function (hist) {
+    const Sh = [];
+    const Sp = [];
+    let pos = 0;
+    let maxArea = 0;
+
+    for (; pos < hist.length; pos++) {
+        let height = hist[pos];
+
+        if (Sh.length === 0 && Sp.length === 0) {
+            Sh.push(height);
+            Sp.push(pos);
+        } else if (height >= peek(Sh)) {
+            Sh.push(height);
+            Sp.push(pos);
+        } else {
+            let newSp = null;
+            while (peek(Sh) >= height && Sh.length > 0 && Sp.length > 0) {
+                let area = peek(Sh) * (pos - peek(Sp));
+
+                if (area > maxArea)
+                    maxArea = area;
+
+                newSp = Sp.pop();
+                Sh.pop();
+            }
+
+            if (newSp !== null) {
+                Sp.push(newSp);
+            } else {
+                Sp.push(pos);
+            }
+
+            Sh.push(height);
+        }
+    }
+
+    while (Sh.length > 0 && Sp.length > 0) {
+        let area = peek(Sh) * (pos - peek(Sp));
+        if (area > maxArea)
+            maxArea = area;
+        Sp.pop();
+        Sh.pop();
+    }
+
+    return maxArea;
 };
 
 /**
@@ -37,6 +85,8 @@ var maximalRectangle = function (matrix) {
         histogram = updateHistogram(histogram, matrix[i]);
         maxArea = Math.max(maxArea, largestAreaUnderHistogram(histogram));
     }
+
+    return maxArea;
 };
 
 exports.maximalRectangle = maximalRectangle;

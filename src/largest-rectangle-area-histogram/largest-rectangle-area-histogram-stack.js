@@ -84,10 +84,30 @@ const largestRectangleArea = function (heights) {
                 // larger than the current one or the stacks are empty...
             }
 
+            // we moved back until finding the first bar that is smaller than the current one.
+            // we ALSO popped the last bar that is the same of larger than the current one.
+            // we need to push it back, but with its height modified to the height of the current bar
+            // because the current bar is the top height limit.
+
+            // example:
+            // histogram is
+            // 2 1 5 6 2 3
+
+            // 1. Say, we are in the 4 position (0 base index) o of the histogram, with height 2.
+            // 2. moving back, the first bar smaller than 2 is h=1, with height 1.
+            // 3. We popped bar 5 at the end of the cycle, and our current bar has height 2 (step 1)
+            // 4. We need to push the position of the 5-height-bar again
+            // 5. Because the maximum height is limited by the height of the current bar, we "change" the height of the
+            //    5-bar to 2 (the current height). This way, the rectangle from pos=2 to pos=4 will now
+            //    have a height of 2.
             if (lastSp === null)
                 Sp.push(pos);
             else
+                // if there was no last popped bar, we push in the height of the current one.
                 Sp.push(lastSp);
+
+            // the current height is always the maximum height attainable within the space [peek(Sp): currentBar].
+            // Because we popped all bars taller than the current bar in the last cycle, the smallest bar has to be the current one!
             Sh.push(height);
         }
     }
