@@ -1,73 +1,42 @@
-let convertPosition = function (r, c, direction) {
-    switch (direction) {
-        case("right"):
-            return {r: r, c: c + 1};
-        case("down"):
-            return {r: r + 1, c: c};
-    }
-};
-
-let nextValidPositions = function (matrix, r, c, directions) {
-    const validPositions = [];
-    for (let i = 0; i < Object.keys(directions).length; i++) {
-        let key = Object.keys(directions)[i];
-        if (directions[key]) {
-            const newValidPosition = convertPosition(r, c, key);
-            validPositions.push(newValidPosition);
-        }
-    }
-    return validPositions;
-};
-
-
-let getMaxRectangle = function (matrix, r, c, directions) {
-    console.log(`Checking (r: ${r}, c: ${c})`);
-    let currentRectArea = 1;
-
-    if (!directions) {
-        directions = {};
-        directions.right = (c < matrix[r].length - 1) && matrix[r][c + 1] === "1";
-        directions.down = (r < matrix.length - 1) && matrix[r + 1][c] === "1";
+const updateHistogram = function (previousHistogram, newRow) {
+    if (!previousHistogram) {
+        previousHistogram = newRow;
     } else {
-        directions.right = directions.right && (c < matrix[r].length - 1) && matrix[r][c + 1] === "1";
-        directions.down = directions.down && (r < matrix.length - 1) && matrix[r + 1][c] === "1";
-    }
-
-    let nextViablePositions = nextValidPositions(matrix, r, c, directions);
-
-    if (nextViablePositions.length === 0) {
-        return 1;
-    } else {
-        for (let i = 0; i < nextViablePositions.length; i++) {
-            let nextPos = nextViablePositions[i];
-            currentRectArea = currentRectArea + getMaxRectangle(matrix, nextPos.r, nextPos.c, directions)
-        }
-    }
-
-    return currentRectArea;
-
-};
-
-
-/**
- * @param {string[][]} matrix
- * @return {number}
- */
-var maximalRectangle = function (matrix) {
-    let maxArea = 0;
-    for (let r = 0; r < matrix.length; r++) {
-        let row = matrix[r];
-        for (let c = 0; c < row.length; c++) {
-            if (matrix[r][c] === "1") {
-                let areaOfNextRectangle = getMaxRectangle(matrix, r, c);
-                if (maxArea < areaOfNextRectangle) {
-                    maxArea = areaOfNextRectangle;
-                }
+        for (let c = 0; c < newRow.length; c++) {
+            if (newRow[i] === 0) {
+                previousHistogram[c] = 0;
+            } else {
+                previousHistogram[c] += newRow[i];
             }
         }
     }
 
-    return maxArea;
+    return previousHistogram;
+};
+
+const largestAreaUnderHistogram = function (histogram) {
+
+};
+
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalRectangle = function (matrix) {
+    let maxArea = 0;
+
+    // convert into numbers
+    for (let r = 0; r < matrix.length; r++) {
+        for (let c = 0; c < matrix[0].length; c++) {
+            matrix[r][c] = Number.parseInt(matrix[r][c]);
+        }
+    }
+
+    let histogram = null;
+    for (let i = 0; i < matrix.length; i++) {
+        histogram = updateHistogram(histogram, matrix[i]);
+        maxArea = Math.max(maxArea, largestAreaUnderHistogram(histogram));
+    }
 };
 
 exports.maximalRectangle = maximalRectangle;
