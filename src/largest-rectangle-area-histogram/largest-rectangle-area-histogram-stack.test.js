@@ -1,5 +1,5 @@
 var assert = require('assert');
-var largestRectangleArea = require("./largest-rectangle-area-histogram").largestRectangleArea;
+var largestRectangleArea = require("./largest-rectangle-area-histogram-stack").largestRectangleArea;
 
 const {performance} = require('perf_hooks');
 var t0 = performance.now();
