@@ -3,10 +3,10 @@ const updateHistogram = function (previousHistogram, newRow) {
         previousHistogram = newRow;
     } else {
         for (let c = 0; c < newRow.length; c++) {
-            if (newRow[i] === 0) {
+            if (newRow[c] === 0) {
                 previousHistogram[c] = 0;
             } else {
-                previousHistogram[c] += newRow[i];
+                previousHistogram[c] += newRow[c];
             }
         }
     }
