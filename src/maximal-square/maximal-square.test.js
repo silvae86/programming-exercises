@@ -6,8 +6,14 @@ var t0 = performance.now();
 
 describe('Maximal Square', function () {
     describe('Trivial Cases', function () {
-        it('Input: []", output = 0', function () {
+        it('Input: [], output = 0', function () {
             assert.equal(maximalSquare([]), 0);
+        });
+        it('Input: [["1"]], output = 1', function () {
+            assert.equal(maximalSquare([["1"]]), 1);
+        });
+        it('Input: [["0"]], output = 0', function () {
+            assert.equal(maximalSquare([["0"]]), 0);
         });
     });
 
@@ -41,6 +47,14 @@ describe('Maximal Square', function () {
 
         it('[Leetcode example] Input: [ ["1","0","1","0","0"], ["1","0","1","1","1"], ["1","1","1","1","1"], ["1","0","0","1","0"] ]", output = 4', function () {
             assert.equal(maximalSquare([["1", "0", "1", "0", "0"], ["1", "0", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["1", "0", "0", "1", "0"]]), 4);
+        });
+
+        it('[Leetcode example 2] Input: [["1","1","1","1","1"],["1","1","1","1","1"],["0","0","0","0","0"],["1","1","1","1","1"],["1","1","1","1","1"]]", output = 4', function () {
+            assert.equal(maximalSquare([["1", "1", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["0", "0", "0", "0", "0"], ["1", "1", "1", "1", "1"], ["1", "1", "1", "1", "1"]]), 4);
+        });
+
+        it('[Leetcode example 3] Input: [["0","0","0","1"],["1","1","0","1"],["1","1","1","1"],["0","1","1","1"],["0","1","1","1"]]", output = 9', function () {
+            assert.equal(maximalSquare([["0", "0", "0", "1"], ["1", "1", "0", "1"], ["1", "1", "1", "1"], ["0", "1", "1", "1"], ["0", "1", "1", "1"]]), 9);
         });
 
         it('[Huge Matrix] Input: [ 1000 x 1000 ]", output = 1 000 000', function () {
