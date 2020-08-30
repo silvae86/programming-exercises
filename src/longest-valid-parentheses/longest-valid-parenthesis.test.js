@@ -1,5 +1,5 @@
 var assert = require('assert');
-var longestValidParentheses = require("./longest-valid-parentheses").longestValidParentheses
+var longestValidParentheses = require("./longest-valid-parentheses").longestValidParentheses;
 
 const {performance} = require('perf_hooks');
 var t0 = performance.now();

@@ -4,10 +4,10 @@
  */
 
 var getProductArrays = function (nums) {
-    const fromLeft = new Array(nums.length)
-    const fromRight = new Array(nums.length)
+    const fromLeft = new Array(nums.length);
+    const fromRight = new Array(nums.length);
 
-    fromLeft[0] = nums[0]
+    fromLeft[0] = nums[0];
     fromRight[nums.length-1] = nums[nums.length-1];
 
     for (let i = 1; i < nums.length ; i++) {
@@ -19,7 +19,7 @@ var getProductArrays = function (nums) {
     }
 
     return {fromLeft, fromRight}
-}
+};
 
 var productExceptSelf = function (nums) {
     const products = new Array(nums.length);

@@ -30,7 +30,7 @@ const largestRectangleArea = function (heights) {
     let Sp = [];
     let Sh = [];
     let maxArea = 0;
-    let pos = 0
+    let pos = 0;
 
     // for each bar, we start our search...
     for (; pos < heights.length; pos++) {
