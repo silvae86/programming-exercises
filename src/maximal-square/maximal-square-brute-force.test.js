@@ -1,10 +1,10 @@
 var assert = require('assert');
-var maximalSquare = require("./maximal-square").maximalSquare;
+var maximalSquare = require("./maximal-square-brute-force").maximalSquare;
 
 const {performance} = require('perf_hooks');
 var t0 = performance.now();
 
-describe('Maximal Square', function () {
+describe('Maximal Square Brute Force', function () {
     describe('Trivial Cases', function () {
         it('Input: [], output = 0', function () {
             assert.equal(maximalSquare([]), 0);
