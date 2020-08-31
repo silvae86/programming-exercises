@@ -11,7 +11,7 @@ const getCharsDict = function (string) {
             dict[string[i]]++;
     }
     return dict;
-}
+};
 
 class Window {
 
@@ -127,10 +127,10 @@ var search = function (s, t) {
         if (window.becameComplete)
             window.moveHeadForward();
 
-    } while (!window.isFinished())
+    } while (!window.isFinished());
 
     return window.minimal;
-}
+};
 
 const minWindow = function (s, t) {
     if (s === t) {

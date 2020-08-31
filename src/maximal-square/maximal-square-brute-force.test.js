@@ -4,7 +4,7 @@ var maximalSquare = require("./maximal-square-brute-force").maximalSquare;
 const {performance} = require('perf_hooks');
 var t0 = performance.now();
 
-describe('Maximal Square', function () {
+describe('Maximal Square Brute Force', function () {
     describe('Trivial Cases', function () {
         it('Input: [], output = 0', function () {
             assert.equal(maximalSquare([]), 0);
@@ -50,11 +50,11 @@ describe('Maximal Square', function () {
         });
 
         it('[Leetcode example 2] Input: [["1","1","1","1","1"],["1","1","1","1","1"],["0","0","0","0","0"],["1","1","1","1","1"],["1","1","1","1","1"]]", output = 4', function () {
-            assert.equal(maximalSquare([["1","1","1","1","1"],["1","1","1","1","1"],["0","0","0","0","0"],["1","1","1","1","1"],["1","1","1","1","1"]]), 4);
+            assert.equal(maximalSquare([["1", "1", "1", "1", "1"], ["1", "1", "1", "1", "1"], ["0", "0", "0", "0", "0"], ["1", "1", "1", "1", "1"], ["1", "1", "1", "1", "1"]]), 4);
         });
 
         it('[Leetcode example 3] Input: [["0","0","0","1"],["1","1","0","1"],["1","1","1","1"],["0","1","1","1"],["0","1","1","1"]]", output = 9', function () {
-            assert.equal(maximalSquare([["0","0","0","1"],["1","1","0","1"],["1","1","1","1"],["0","1","1","1"],["0","1","1","1"]]), 9);
+            assert.equal(maximalSquare([["0", "0", "0", "1"], ["1", "1", "0", "1"], ["1", "1", "1", "1"], ["0", "1", "1", "1"], ["0", "1", "1", "1"]]), 9);
         });
 
         it('[Huge Matrix] Input: [ 1000 x 1000 ]", output = 1 000 000', function () {

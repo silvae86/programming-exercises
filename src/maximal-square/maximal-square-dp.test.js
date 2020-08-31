@@ -1,10 +1,10 @@
 var assert = require('assert');
-var maximalSquare = require("./maximal-square").maximalSquare;
+var maximalSquare = require("./maximal-square-dp").maximalSquare;
 
 const {performance} = require('perf_hooks');
 var t0 = performance.now();
 
-describe('Maximal Square', function () {
+describe('Maximal Square - Dynamic Programming', function () {
     describe('Trivial Cases', function () {
         it('Input: [], output = 0', function () {
             assert.equal(maximalSquare([]), 0);

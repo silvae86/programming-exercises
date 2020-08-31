@@ -1,5 +1,5 @@
 var assert = require('assert');
-var minWindow = require("./minimum-window-substring").minWindow
+var minWindow = require("./minimum-window-substring").minWindow;
 
 const {performance} = require('perf_hooks');
 var t0 = performance.now();

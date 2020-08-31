@@ -14,7 +14,7 @@ var getMax = function (array) {
     }
 
     return currentMax;
-}
+};
 
 var maxSlidingWindow = function (nums, k) {
     let maxWindow = [];

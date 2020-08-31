@@ -1,5 +1,5 @@
 var assert = require('assert');
-var minSubArrayLen = require("./minimum-size-subarray-sum").minSubArrayLen
+var minSubArrayLen = require("./minimum-size-subarray-sum").minSubArrayLen;
 
 const {performance} = require('perf_hooks');
 var t0 = performance.now();

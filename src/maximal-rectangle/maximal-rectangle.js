@@ -16,7 +16,7 @@ const updateHistogram = function (previousHistogram, newRow) {
 
 const peek = function (stack) {
     return stack[stack.length - 1];
-}
+};
 
 const largestAreaUnderHistogram = function (hist) {
     const Sh = [];
