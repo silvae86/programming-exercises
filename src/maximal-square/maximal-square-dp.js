@@ -30,8 +30,40 @@
  * @return {number}
  */
 var maximalSquare = function (matrix) {
-    if (matrix.length > 0) {
+    let maxSide = 0;
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            matrix[i][j] = Number.parseInt(matrix[i][j]);
+        }
+    }
 
+    if (matrix.length > 0) {
+        let height = matrix.length;
+        let width = matrix[0].length;
+        const dp = new Array(height);
+
+        for (let i = 0; i < height; i++) {
+            dp[i] = new Array(width).fill(0);
+        }
+
+        dp[0][0] = matrix[0][0];
+
+        for (let r = 0; r < height; r++) {
+            for (let c = 0; c < width; c++) {
+                if (matrix[r][c] === 1) {
+                    let upLeft = (r > 0 && c > 0) ? dp[r - 1][c - 1] : 0;
+                    let left = (c > 0) ? dp[r][c - 1] : 0;
+                    let up = (r > 0) ? dp[r - 1][c] : 0;
+
+                    dp[r][c] = Math.min(upLeft, left, up) + 1;
+                    if (dp[r][c] > maxSide)
+                        maxSide = dp[r][c];
+                } else {
+                    dp[r][c] = 0;
+                }
+            }
+        }
+        return Math.pow(maxSide, 2);
     } else {
         return 0;
     }
