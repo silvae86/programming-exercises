@@ -1,58 +1,28 @@
-// you can write to stdout for debugging purposes, e.g.
-// console.log('this is a debug message');
-
-let kadane = function (A) {
-    if (A.length === 0) {
-        return {start: 0, end: 0, sum: 0};
-    } else {
-        let maxOverall = Number.MIN_VALUE;
-        let maxFound = Number.MIN_VALUE;
-        let start = 0;
-        let end = 0;
-
-        for (let i = 1; i < A.length; i++) {
-            if (A[i] > maxFound + A[i]) {
-                maxFound = A[i];
-                start = i;
-                end = i;
-            } else {
-                maxFound += A[i];
-                end++;
-            }
-
-            if (maxFound > maxOverall) {
-                maxOverall = maxFound;
-            }
-        }
-
-        return {start, end, sum: maxOverall};
-    }
-};
-
-let sum = function (A) {
-    let sum = 0;
-    for (let i = 0; i < A.length; i++) {
-        sum += A[i];
-    }
-    return sum;
-};
-
 function solution(A) {
-    let maximumSumSeq = kadane(A);
-    let X = maximumSumSeq.start;
-    let Y = maximumSumSeq.start;
-    let Z = maximumSumSeq.end;
+    let maxSequence = [A[0]];
+    let maxSequenceBackward = new Array(A.length);
+    maxSequenceBackward[maxSequenceBackward.length - 1] = A[A.length - 1];
 
+    for (let i = 2; i < A.length - 1; i++) {
+        maxSequence[i] = Math.max(maxSequence[i - 1] + A[i], A[i]);
+    }
 
-    let min = A[Y];
-    for (let i = maximumSumSeq; i < maximumSumSeq.end; i++) {
-        if (min > A[Y]) {
-            Y++;
+    for (let i = A.length - 2; i > 1; i--) {
+        maxSequenceBackward[i] = Math.max(maxSequenceBackward[i + 1] + A[i], A[i]);
+    }
+
+    let max = 0;
+    let sumWithoutY = [];
+    for (let i = 1; i < A.length - 2; i++) {
+        let currentSumWithoutY = maxSequence[i - 1] + maxSequenceBackward[i + 1];
+        sumWithoutY.push(currentSumWithoutY);
+
+        if (currentSumWithoutY > max) {
+            max = currentSumWithoutY;
         }
     }
 
-    let result = sum(maximumSumSeq) - A[Y];
-    return result;
+    return max;
 }
 
 
