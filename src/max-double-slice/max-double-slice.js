@@ -1,3 +1,12 @@
+/**
+ * NOT WORKING YET.
+ * TODO READ https://stackoverflow.com/questions/20660989/max-double-slice-sum
+ * TODO PROBLEM https://app.codility.com/programmers/lessons/9-maximum_slice_problem/max_double_slice_sum/
+ * TODO SOLUTION https://app.codility.com/demo/results/demoVUMMR9-JH3/
+ * @param A
+ * @returns {number}
+ */
+
 function solution(A) {
     let maxSequence = [A[0]];
     let maxSequenceBackward = new Array(A.length);
