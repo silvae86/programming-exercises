@@ -32,10 +32,11 @@ const getDict = function () {
 
 const exchangeRateDict = getDict(exchangeRates);
 
-// consider the cost of each traversal as 1, because we know
-// from the interview that we want to minimize
-// the number of traversals, hence every traversal can have the
-// same cost (makes it a sort of unweighted graph in practice)
+// consider the cost of each traversal as 1, because we we want
+// to minimize the number of traversals only, since at the end we
+// assume that there is no loss in the conversion itself.
+// Hence, every traversal can have the
+// same cost (makes it a sort of unweighted graph in practice).
 let costOfTraversal = 1;
 
 const findRateThroughPath = function (start, end) {
