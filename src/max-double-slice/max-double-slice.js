@@ -2,22 +2,31 @@
 // console.log('this is a debug message');
 
 let kadane = function (A) {
-    let start = 0;
-    let end = 0;
-    let sum = A[0];
+    if (A.length === 0) {
+        return {start: 0, end: 0, sum: 0};
+    } else {
+        let maxOverall = Number.MIN_VALUE;
+        let maxFound = Number.MIN_VALUE;
+        let start = 0;
+        let end = 0;
 
-    for (let i = 1; i < A.length; i++) {
-        if (sum < A[i]) {
-            start = i;
-            end = i;
-            sum = A[i];
-        } else {
-            sum = A[i] + sum;
-            end++;
+        for (let i = 1; i < A.length; i++) {
+            if (A[i] > maxFound + A[i]) {
+                maxFound = A[i];
+                start = i;
+                end = i;
+            } else {
+                maxFound += A[i];
+                end++;
+            }
+
+            if (maxFound > maxOverall) {
+                maxOverall = maxFound;
+            }
         }
-    }
 
-    return {start, end, sum};
+        return {start, end, sum: maxOverall};
+    }
 };
 
 let sum = function (A) {

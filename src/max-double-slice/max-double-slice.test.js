@@ -8,10 +8,10 @@ describe('Maximum Double Slice', function () {
 
     describe('Valid Cases', function () {
         it('Input: [3,-20,6,-1,4,5,-1,-20]", output = 17', function () {
-            assert.equal(solution([3, -20, 6, -1, 4, 5, -1, -20]), 0);
+            assert.equal(solution([3, -20, 6, -1, 4, 5, -1, -20]), 17);
         });
         it('Input: [3,2,6,-1,4,5,-1,2]", output = 17', function () {
-            assert.equal(solution([3, 2, 6, -1, 4, 5, -1, 2]), 0);
+            assert.equal(solution([3, 2, 6, -1, 4, 5, -1, 2]), 17);
         });
     });
 

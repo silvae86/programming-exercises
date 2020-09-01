@@ -27,6 +27,7 @@ var maxSubArray = function (nums) {
     return totalMax;
 };
 
+// "default" solution found usually on the web:
 // var maxSubArray = function(nums) {
 //     if(nums.length > 0)
 //     {
