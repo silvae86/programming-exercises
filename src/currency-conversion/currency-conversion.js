@@ -96,9 +96,9 @@ const findRateThroughPath = function (start, end) {
     } else {
         // lets loop the parents object from the end to the start and calculate the rate...
         let parent = parents[end];
-        let rate = exchangeRateDict[end][parent];
+        let rate = exchangeRateDict[parent][end];
         while (parents[parent] !== null) {
-            let nextRate = exchangeRateDict[parent][parents[parent]];
+            let nextRate = exchangeRateDict[parents[parent]][parent];
             rate = rate * nextRate;
             parent = parents[parent];
         }
